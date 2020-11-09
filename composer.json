@@ -1,0 +1,20 @@
+{
+    "name": "antiseptikk/dev-kit",
+    "description": "Battle-tested dev-kit.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Ferney",
+            "email": "thomas.ferney@gmail.com",
+            "homepage": "http://thomas.ferney.fr"
+        }
+    ],
+    "require": {
+        "sylius-labs/coding-standard": "^3.2"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
+}
