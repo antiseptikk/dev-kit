@@ -2,6 +2,7 @@
     PHP dev-kit
 </h1>
 
+![Quality Assurance](https://github.com/antiseptikk/dev-kit/workflows/Quality%20Assurance/badge.svg?branch=main)
 
 Installation & usage
 --------------------
