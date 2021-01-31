@@ -18,10 +18,5 @@
         "psr-4": {
             "Tests\\Antiseptikk\\CodingStandard\\": "tests/"
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-main": "main"
-        }
     }
 }
