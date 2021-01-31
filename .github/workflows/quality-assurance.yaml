@@ -1,0 +1,34 @@
+name: Quality Assurance
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    extensions: mbstring, bcmath, sqlite3, gd, intl
+
+jobs:
+    testing:
+        name: QA & Testing
+        runs-on: ${{ matrix.operating-system }}
+        strategy:
+            matrix:
+                operating-system: [ 'ubuntu-latest' ]
+                php-versions: [ '7.3', '7.4' ]
+        steps:
+            -   name: Install PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-versions }}
+                    extensions: ${{ env.extensions }}
+
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Composer Install
+                run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+
+            -   name: Easy coding standard
+                run: ./vendor/bin/ecs check ./tests
