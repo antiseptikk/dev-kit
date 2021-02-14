@@ -32,3 +32,9 @@ jobs:
 
             -   name: Easy coding standard
                 run: ./vendor/bin/ecs check ./tests
+
+            -   name: Psalm
+                run: ./vendor/bin/psalm
+
+            -   name: PHPStan
+                run: ./vendor/bin/phpstan analyse tests -l max

@@ -4,7 +4,7 @@
 
 ![Quality Assurance](https://github.com/antiseptikk/dev-kit/workflows/Quality%20Assurance/badge.svg?branch=main)
 
-Installation & usage
+Installation
 --------------------
 
 1. Install this package:
@@ -32,3 +32,48 @@ Installation & usage
    };
 
    ```
+
+3. Creates a file named `psalm.xml` in the root directory of your project.
+
+   ```xml
+   <?xml version="1.0"?>
+   <psalm
+      errorLevel="1"
+      resolveFromConfigFile="true"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="https://getpsalm.org/schema/config"
+      xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+   >
+       <projectFiles>
+           <directory name="src" />
+           <ignoreFiles>
+               <directory name="vendor" />
+           </ignoreFiles>
+       </projectFiles>
+   </psalm>
+   ```
+
+Usage
+--------------------
+
+**Static Analysis**
+
+-  Psalm
+      
+   ```bash
+   vendor/bin/psalm
+   ```
+
+- PHPStan
+
+   ```bash
+   vendor/bin/phpstan analyse src
+   ```
+
+   By default, PHPStan runs only the most basic checks. Head to [Rule Levels](https://phpstan.org/user-guide/rule-levels) to learn how to turn on stricter checks.
+
+**Coding Standard**
+
+```bash
+vendor/bin/ecs check src
+```

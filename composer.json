@@ -12,7 +12,9 @@
     "require": {
         "php": "^7.3",
         "slevomat/coding-standard": "^6.4",
-        "symplify/easy-coding-standard": "^8.1 || ^9.0"
+        "symplify/easy-coding-standard": "^8.1 || ^9.0",
+        "vimeo/psalm": "^4.5",
+        "phpstan/phpstan": "^0.12.76"
     },
     "autoload-dev": {
         "psr-4": {
