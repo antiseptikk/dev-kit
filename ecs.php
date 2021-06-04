@@ -8,9 +8,9 @@ use PhpCsFixer\Fixer\Alias\NoMixedEchoPrintFixer;
 use PhpCsFixer\Fixer\Alias\PowToExponentiationFixer;
 use PhpCsFixer\Fixer\ArrayNotation\ArraySyntaxFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoMultilineWhitespaceAroundDoubleArrowFixer;
+use PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoTrailingCommaInSinglelineArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\NoWhitespaceBeforeCommaInArrayFixer;
-use PhpCsFixer\Fixer\ArrayNotation\NormalizeIndexBraceFixer;
 use PhpCsFixer\Fixer\ArrayNotation\TrailingCommaInMultilineArrayFixer;
 use PhpCsFixer\Fixer\ArrayNotation\TrimArraySpacesFixer;
 use PhpCsFixer\Fixer\ArrayNotation\WhitespaceAfterCommaInArrayFixer;
@@ -84,11 +84,6 @@ use PhpCsFixer\Fixer\Operator\StandardizeNotEqualsFixer;
 use PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\TernaryToNullCoalescingFixer;
 use PhpCsFixer\Fixer\Operator\UnaryOperatorSpacesFixer;
-use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
-use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
-use PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoBlankLinesAfterPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoEmptyPhpdocFixer;
 use PhpCsFixer\Fixer\Phpdoc\NoSuperfluousPhpdocTagsFixer;
@@ -107,6 +102,11 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocTrimFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocTypesOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocVarWithoutNameFixer;
+use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
+use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
+use PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer;
 use PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
@@ -282,8 +282,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(NoHomoglyphNamesFixer::class);
 
-    $services->set(BinaryOperatorSpacesFixer::class)
-        ->call('configure', [['align_double_arrow' => false, 'align_equals' => false]]);
+    $services->set(BinaryOperatorSpacesFixer::class);
 
     $services->set(ConcatSpaceFixer::class)
         ->call('configure', [['spacing' => 'one']]);
