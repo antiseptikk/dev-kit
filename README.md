@@ -1,3 +1,10 @@
+
+<p align="center">
+    <a href="https://thomas-ferney.fr" target="_blank">
+        <img src="https://thomas-ferney.fr/images/github-ban-dev-kit.png" />
+    </a>
+</p>
+
 <h1 align="center">
     PHP dev-kit
 </h1>
