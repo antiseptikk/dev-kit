@@ -3,6 +3,8 @@
 </h1>
 
 ![Quality Assurance](https://github.com/antiseptikk/dev-kit/workflows/Quality%20Assurance/badge.svg?branch=main)
+![Packagist Downloads](https://img.shields.io/packagist/dt/antiseptikk/dev-kit?label=Packagist)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/antiseptikk/dev-kit?label=Last%20release)
 
 Installation
 --------------------
