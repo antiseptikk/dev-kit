@@ -42,7 +42,7 @@ Installation
 
    ```
 
-3. Creates a file named `psalm.xml` in the root directory of your project.
+3. [v2] Creates a file named `psalm.xml` in the root directory of your project.
 
    ```xml
    <?xml version="1.0"?>
@@ -65,7 +65,7 @@ Installation
 Usage
 --------------------
 
-**Static Analysis**
+** [v2] Static Analysis**
 
 -  Psalm
       
