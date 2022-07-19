@@ -1,40 +1,65 @@
 name: Quality Assurance
 
 on:
-    push:
-        branches: [main]
-    pull_request:
-        types: [opened, synchronize, reopened, ready_for_review]
-
-env:
-    extensions: mbstring, bcmath, sqlite3, gd, intl
+    push: ~
+    pull_request: ~
+    release:
+        types: [created]
+    schedule:
+        -
+            cron: "0 1 * * 6" # Run at 1am every Saturday
 
 jobs:
     testing:
-        name: QA & Testing
-        runs-on: ${{ matrix.operating-system }}
-        strategy:
-            matrix:
-                operating-system: [ 'ubuntu-latest' ]
-                php-versions: [ '7.3', '7.4', '8.0' ]
-        steps:
-            -   name: Install PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php-versions }}
-                    extensions: ${{ env.extensions }}
+        runs-on: ubuntu-latest
 
-            -   name: Checkout
+        name: "PHP ${{ matrix.php }}, ECS ${{ matrix.ecs }}"
+
+        strategy:
+            fail-fast: false
+            matrix:
+                php: [ 8.1 ]
+                ecs: [ 11.* ]
+
+        steps:
+            -
                 uses: actions/checkout@v2
 
-            -   name: Composer Install
-                run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: "${{ matrix.php }}"
+                    extensions: intl
+                    tools: symfony
+                    coverage: none
 
-            -   name: Easy coding standard
-                run: ./vendor/bin/ecs check ./tests
+            -
+                name: Get Composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-            -   name: Psalm
-                run: ./vendor/bin/psalm
+            -
+                name: Cache Composer
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
-            -   name: PHPStan
-                run: ./vendor/bin/phpstan analyse tests -l max
+            -
+                name: Require EasyCodingStandard version
+                run: composer require symplify/easy-coding-standard:${{ matrix.ecs }} --no-update --no-scripts
+
+            -
+                name: Install PHP dependencies
+                run: composer install --no-interaction
+
+            -
+                name: Validate composer.json
+                run: composer validate --ansi --strict
+
+            -
+                name: Run test
+                run: vendor/bin/ecs check --config ecs.php tests ecs.php
