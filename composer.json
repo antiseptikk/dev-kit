@@ -9,15 +9,18 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
-        "slevomat/coding-standard": "^7.0",
-        "symplify/easy-coding-standard": "^8.1 || ^9.0",
-        "vimeo/psalm": "^4.5",
-        "phpstan/phpstan": "^0.12.76"
+        "php": "^8.1",
+        "slevomat/coding-standard": "^8.0",
+        "symplify/easy-coding-standard": "^11.0"
     },
     "autoload-dev": {
         "psr-4": {
             "Tests\\Antiseptikk\\CodingStandard\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }

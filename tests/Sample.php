@@ -8,7 +8,17 @@ class Sample
 {
     public const BAR = 'bar';
 
-    public function foo(): void
+    public function __construct(
+        string $first,
+        string $second,
+    ) {
+    }
+
+    public function foo(FooBar $fooBar): void
     {
+        $fooBar
+            ->setFoo('foo')
+            ->setBar(self::BAR)
+        ;
     }
 }
