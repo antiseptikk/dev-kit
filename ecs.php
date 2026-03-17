@@ -39,6 +39,7 @@ use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
 use PhpCsFixer\Fixer\Comment\NoEmptyCommentFixer;
 use PhpCsFixer\Fixer\Comment\NoTrailingWhitespaceInCommentFixer;
 use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
+use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\ControlStructure\ElseifFixer;
 use PhpCsFixer\Fixer\ControlStructure\IncludeFixer;
@@ -94,6 +95,7 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocNoAliasTagFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoEmptyReturnFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoPackageFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocReturnSelfReferenceFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocScalarFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocSeparationFixer;
@@ -108,7 +110,6 @@ use PhpCsFixer\Fixer\PhpTag\FullOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpTag\NoClosingTagFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitFqcnAnnotationFixer;
-use PhpCsFixer\Fixer\Semicolon\MultilineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\NoEmptyStatementFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
@@ -247,7 +248,6 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(ForbiddenAnnotationsSniff::class, ['forbiddenAnnotations' => ['@api', '@author', '@category', '@copyright', '@created', '@license', '@package', '@since', '@subpackage', '@version']]);
     $ecsConfig->ruleWithConfiguration(IncrementStyleFixer::class, ['style' => 'pre']);
     $ecsConfig->ruleWithConfiguration(ListSyntaxFixer::class, ['syntax' => 'short']);
-    $ecsConfig->ruleWithConfiguration(MultilineWhitespaceBeforeSemicolonsFixer::class, ['strategy' => 'new_line_for_chained_calls']);
     $ecsConfig->ruleWithConfiguration(NoExtraBlankLinesFixer::class, ['tokens' => ['break', 'case', 'continue', 'curly_brace_block', 'default', 'extra', 'parenthesis_brace_block', 'return', 'square_brace_block', 'switch', 'throw', 'use']]);
     $ecsConfig->ruleWithConfiguration(NoMixedEchoPrintFixer::class, ['use' => 'echo']);
     $ecsConfig->ruleWithConfiguration(NoSuperfluousPhpdocTagsFixer::class, ['allow_mixed' => true]);
@@ -256,6 +256,14 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(SingleLineCommentStyleFixer::class, ['comment_types' => ['hash']]);
     $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'parameters']]);
     $ecsConfig->ruleWithConfiguration(VisibilityRequiredFixer::class, ['elements' => ['const', 'property', 'method']]);
+
+    // ECS 10 issues
+    if (is_a(PhpdocOrderFixer::class, ConfigurableFixerInterface::class, true)) {
+        $ecsConfig->ruleWithConfiguration(PhpdocOrderFixer::class, ['order' => ['Given', 'When', 'Then']]);
+    }
+    if (is_a(PhpdocSeparationFixer::class, ConfigurableFixerInterface::class, true)) {
+        $ecsConfig->ruleWithConfiguration(PhpdocSeparationFixer::class, ['groups' => [['Given', 'When', 'Then'], ['var', 'phpstan-var', 'psalm-var'], ['return', 'phpstan-return', 'psalm-return'], ['param', 'phpstan-param', 'psalm-param'], ['template', 'implements', 'extends', 'phpstan-template', 'psalm-template', 'template-covariant', 'psalm-template-covariant', 'template-implements', 'template-extends']]]);
+    }
 
     $ecsConfig->skip([VisibilityRequiredFixer::class => ['*Spec.php']]);
 };

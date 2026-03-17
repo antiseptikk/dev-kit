@@ -18,13 +18,13 @@ Installation
 
 1. Install this package:
 
-    ```bash
+```bash
     $ composer require --dev antiseptikk/dev-kit
-    ```
+```
     
 2. Create a file named `ecs.php` in the root directory of your project.
 
-   ```php
+```php
    <?php
 
    declare(strict_types=1);
@@ -32,54 +32,26 @@ Installation
    use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
    use Symplify\EasyCodingStandard\ValueObject\Option;
    
-   return static function (ContainerConfigurator $containerConfigurator): void
-   {
-       $containerConfigurator->import(__DIR__.'/vendor/antiseptikk/dev-kit/ecs.php');
+   return static function (ECSConfig $config): void {
+       $config->import(__DIR__.'/vendor/antiseptikk/dev-kit/ecs.php');
    
-       $parameters = $containerConfigurator->parameters();
-       $parameters->set(Option::LINE_ENDING, "\n");
+       $config->parallel();
+       $config->paths(['src', 'tests']);
+       $config->skip([
+            InlineDocCommentDeclarationSniff::class . '.MissingVariable',
+            InlineDocCommentDeclarationSniff::class . '.NoAssignment',
+            VisibilityRequiredFixer::class => ['*Spec.php'],
+            '**/var/*',
+       ]);
+       $config->ruleWithConfiguration(PhpdocSeparationFixer::class, ['groups' => [['Given', 'When', 'Then']]]);
+       $config->ruleWithConfiguration(OrderedTypesFixer::class, ['null_adjustment' => 'always_last']);
+       $config->ruleWithConfiguration(NullableTypeDeclarationForDefaultNullValueFixer::class, ['use_nullable_type_declaration' => true]);
    };
 
-   ```
-
-3. [v2] Creates a file named `psalm.xml` in the root directory of your project.
-
-   ```xml
-   <?xml version="1.0"?>
-   <psalm
-      errorLevel="1"
-      resolveFromConfigFile="true"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="https://getpsalm.org/schema/config"
-      xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-   >
-       <projectFiles>
-           <directory name="src" />
-           <ignoreFiles>
-               <directory name="vendor" />
-           </ignoreFiles>
-       </projectFiles>
-   </psalm>
-   ```
+  ```
 
 Usage
 --------------------
-
-** [v2] Static Analysis**
-
--  Psalm
-      
-   ```bash
-   vendor/bin/psalm
-   ```
-
-- PHPStan
-
-   ```bash
-   vendor/bin/phpstan analyse src
-   ```
-
-   By default, PHPStan runs only the most basic checks. Head to [Rule Levels](https://phpstan.org/user-guide/rule-levels) to learn how to turn on stricter checks.
 
 **Coding Standard**
 
