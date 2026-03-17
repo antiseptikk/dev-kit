@@ -29,6 +29,6 @@ final class FooBar
         return
             str_contains($this->foo, 'baz') &&
             str_contains($this->bar, 'baz')
-            ;
+        ;
     }
 }
